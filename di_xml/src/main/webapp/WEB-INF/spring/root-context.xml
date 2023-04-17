@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	<!-- DBUtil 빈 등록 -->
+	<bean id = "dbUtil" class = "com.ssafy.di.util.DBUtil"></bean>
+	
+	<!-- cityDaoImple 빈 등록 및 의존관계 설정 -->
+	<bean id = "cityDaoImpl" class = "com.ssafy.di.model.dao.CityDaoImpl">
+		<!-- 방법 1. 생성자 함수를 사용한 의존관계 설정 -->
+		<constructor-arg ref = "dbUtil"></constructor-arg>
+	</bean>
+	
+	<bean id = "cityDaoImpl2" class = "com.ssafy.di.model.dao.CityDaoImpl2">
+		<!-- 방법 2. setter함수를 사용한 의존관계 설정 -->
+		<property name="dbUtil" ref = "dbUtil"></property>
+	</bean>
+	
+	<!-- CityServiceImpl bean 등록-->
+	<bean id = "cityServiceImpl" class = "com.ssafy.di.model.service.CityServiceImpl">
+		<constructor-arg ref = "cityDaoImpl"></constructor-arg>
+	</bean>
+	
+	<!-- CityController 빈 등록 -->
+	
+	
+</beans>
