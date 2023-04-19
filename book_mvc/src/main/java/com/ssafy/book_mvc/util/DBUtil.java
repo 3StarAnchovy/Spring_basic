@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class DBUtil {
 
-	// 드라이버 동적 로딩
+	// �뱶�씪�씠踰� �룞�쟻 濡쒕뵫
 	public DBUtil() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -18,16 +18,16 @@ public class DBUtil {
 			e.printStackTrace();
 		}
 	}
-	// 연결하기
+	// �뿰寃고븯湲�
 
 	public Connection getConnection() throws SQLException {
-		String url = "jdbc:mysql://localhost:3306/world?ServerTimeZone=UTC";
+		String url = "jdbc:mysql://localhost:3306/bookdb?characterEncoding=UTF-8&serverTimezone=UTC";
 		String user = "ssafy";
 		String password = "ssafy";
 
 		return DriverManager.getConnection(url, user, password);
 	}
-	// 자원 반납
+	// �옄�썝 諛섎궔
 
 	public void close(AutoCloseable... autoCloseables) {
 		for (AutoCloseable obj : autoCloseables) {

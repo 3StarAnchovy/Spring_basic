@@ -32,7 +32,7 @@ public class BookDaoImpl implements BookDao {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "select isbn, title, price, desc, author from book";
+		String sql = "select isbn, title, price, descr, author from book";
 		
 		conn = dbutil.getConnection();
 		pstmt = conn.prepareStatement(sql);
@@ -43,9 +43,9 @@ public class BookDaoImpl implements BookDao {
 		{
 			Book book = new Book();
 			book.setIsbn(rs.getString("isbn"));
-			book.setTitle(rs.getString("titme"));
+			book.setTitle(rs.getString("title"));
 			book.setPrice(rs.getInt("price"));
-			book.setDesc(rs.getString("desc"));
+			book.setDescr(rs.getString("descr"));
 			book.setAuthor(rs.getString("author"));
 			
 			result.add(book);
@@ -54,17 +54,35 @@ public class BookDaoImpl implements BookDao {
 		return result;
 	}
 	
+	@Override
+	public void insertBook(Book book) throws SQLException {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int rs = 0;
+		String sql = "insert into book (isbn,title,price,descr,author) values (?,?,?,?,?)";
+		
+		conn = dbutil.getConnection();
+		pstmt = conn.prepareStatement(sql);
+		
+		pstmt.setString(1, book.getIsbn());
+		pstmt.setString(2, book.getTitle());
+		pstmt.setInt(3, book.getPrice());
+		pstmt.setString(4, book.getDescr());
+		pstmt.setString(5, book.getAuthor());
+		
+		rs = pstmt.executeUpdate();
+	}
+	
 	public static void main(String[] args) throws SQLException
 	{
-		ApplicationContext applicationContext = new GenericXmlApplicationContext("main\\webapp\\WEB-INF\\spring\\appServlet\\servlet-context.xml");
-		// 조회 테스트
-		BookDaoImpl bookDaoImpl = (BookDaoImpl)applicationContext.getBean("bookDaoImpl");
+		DBUtil dbUtil = new DBUtil();
+		BookDaoImpl bookDaoImpl = new BookDaoImpl(dbUtil);
 		List<Book> books = bookDaoImpl.getBookList();
 		
 		System.out.println(books);
-		
-		
 	}
+
+	
 	
 	
 }
