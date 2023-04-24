@@ -1,40 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans xmlns="http://www.springframework.org/schema/mvc"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:beans="http://www.springframework.org/schema/beans"
-    xmlns:context="http://www.springframework.org/schema/context"
-    xmlns:aop="http://www.springframework.org/schema/aop"
-    xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+<beans:beans
+	xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
         http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
 
-    <!-- DispatcherServlet Context: defines this servlet's request-processing 
-        infrastructure -->
+	<!-- DispatcherServlet Context: defines this servlet's request-processing 
+		infrastructure -->
 
-    <!-- Enables the Spring MVC @Controller programming model -->
-    <annotation-driven />
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<annotation-driven />
 
-    <!-- Handles HTTP GET requests for /resources/** by efficiently serving 
-        up static resources in the ${webappRoot}/resources directory -->
-    <!-- resources는 controller로 요청을 보내는게 아니라 따로 빼놓고, resource 경로로 들어오는 url은 
-        resources 폴더 내부에 있는 걸 가져옴 -->
-    <!-- mapping : url, location: 폴더 -->
-    <resources mapping="/resources/**" location="/resources/" />
-    <resources mapping="/css/**" location="/resources/css" />
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
+		up static resources in the ${webappRoot}/resources directory -->
+	<!-- resources는 controller로 요청을 보내는게 아니라 따로 빼놓고, resource 경로로 들어오는 url은 
+		resources 폴더 내부에 있는 걸 가져옴 -->
+	<!-- mapping : url, location: 폴더 <resources mapping="/resources/**" location="/resources/" 
+		/> <resources mapping="/css/**" location="/resources/css" /> -->
 
-    <!-- Resolves views selected for rendering by @Controllers to .jsp resources 
-        in the /WEB-INF/views directory -->
-    <beans:bean
-        class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <beans:property name="prefix" value="/WEB-INF/views/" />
-        <beans:property name="suffix" value=".jsp" />
-    </beans:bean>
 
-    <context:component-scan
-        base-package="com.ssafy.book" />
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
+		in the /WEB-INF/views directory -->
+	<beans:bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
 
-    <!-- aop 관련 설정 -->
-    <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
-    
+	<context:component-scan
+		base-package="com.ssafy.book" />
+	<!-- 인터셉터 사용 -->
+	<!-- 1. 인터셉터 빈 등록 -->
+	<beans:bean id="firstInterceptor"
+		class="com.ssafy.book.interceptor.FirstInterceptor"></beans:bean>
+
+	<beans:bean id="secondInterceptor"
+		class="com.ssafy.book.interceptor.SecondInterceptor"></beans:bean>
+	
+	<beans:bean id="sessionConfirmInterceptor"
+		class="com.ssafy.book.interceptor.SessionConfirmInterceptor"></beans:bean>
+
+	<!-- 2. 인터셉터 등록 -->
+	<interceptors>
+		<interceptor>
+			<!-- ???? -->
+			<mapping path="/book/**"></mapping>
+			<beans:ref bean="firstInterceptor"></beans:ref>
+		</interceptor>
+		<interceptor>
+			<!-- ???? -->
+			<mapping path="/book/**"></mapping>
+			<beans:ref bean="secondInterceptor"></beans:ref>
+		</interceptor>
+		
+		<interceptor>
+			<!-- 로그인일때든 언제든 조회는 되야함 -->
+			<mapping path="/book/**"></mapping>
+			<exclude-mapping path = "/book/list"></exclude-mapping>
+			<beans:ref bean="sessionConfirmInterceptor"></beans:ref>
+		</interceptor>
+	</interceptors>
+
+	<!-- aop 관련 설정 -->
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+
 </beans:beans>
