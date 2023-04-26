@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 import com.ssafy.test.dto.Board;
+import com.ssafy.test.dto.Detail;
 import com.ssafy.test.model.service.BoardService;
 
 @Controller
@@ -39,7 +40,7 @@ public class IssueController {
 	@GetMapping("/detail")
 	public String detail(@RequestParam String ano, Model model) throws SQLException
 	{
-		Board board = boardService.selectByAno(ano);
+		Detail board = boardService.selectByAno(ano);
 		model.addAttribute("board", board);
 		return "detail";
 	}

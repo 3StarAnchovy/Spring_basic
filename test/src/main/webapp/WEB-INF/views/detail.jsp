@@ -23,25 +23,25 @@ form>:input {
 	<h1 id="head">출결 관리 - 이슈 조회</h1>
 	<form>
 		<label for="ano" class="inputtitle">이슈 번호</label>
-		<input type="text" name="ano" id="ano">
+		<input type="text" name="ano" id="ano" value="${board.ano }">
 		<br>
 		<label for="userid" class="inputtitle">아이디</label>
-		<input type="text" name="userid" id="userid">
+		<input type="text" name="userid" id="userid" value="${board.userid }">
 		<br>
 		<label for="name" class="inputtitle">교육생명</label>
-		<input type="text" name="name" id="name">
+		<input type="text" name="name" id="name" value="${board.name }">
 		<br>
 		<label for="rclass" class="inputtitle">반</label>
-		<input type="number" name="rclass" id="rclass">
+		<input type="number" name="rclass" id="rclass" value="${board.rclass }">
 		<br>
 		<label for="rname" class="inputtitle">지역</label>
-		<input type="text" name="rname" id="rname">
+		<input type="text" name="rname" id="rname" value="${board.rname }">
 		<br>
 		<label for="issuedate" class="inputtitle">날짜</label>
-		<input type="text" name="issuedate" id="issuedate">
+		<input type="text" name="issuedate" id="issuedate" value="${board.issuedate }">
 		<br>
 		<label for="issue" class="inputtitle">사유</label>
-		<input type="text" name="issue" id="issue">
+		<input type="text" name="issue" id="issue" value="${board.issue }">
 		<br>
 
 		<%@ include file="/WEB-INF/views/footer.jsp"%>

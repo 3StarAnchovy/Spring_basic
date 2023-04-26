@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 
 import com.ssafy.test.dto.Board;
+import com.ssafy.test.dto.Detail;
 
 
 @Repository
@@ -59,11 +60,11 @@ public class BoardDaoImpl implements BoardDao {
 
 
 	@Override
-	public Board selectByAno(String ano) throws SQLException {
+	public Detail selectByAno(String ano) throws SQLException {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "select ano, userid, issuedate, issue from attendance where ano = ?";
+		String sql = "select a.ano, u.userid, u.name, u.rclass, u.rname, a.issuedate, a.issue from userinfo u inner join attendance a where u.userid = a.userid and a.ano = ?";
 
 		try {
 			conn = ds.getConnection();
@@ -72,11 +73,15 @@ public class BoardDaoImpl implements BoardDao {
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				Board car = new Board();
+				Detail car = new Detail();
 				car.setAno(rs.getString("ano"));
 				car.setUserid(rs.getString("userid"));
 				car.setIssuedate(rs.getString("issuedate"));
 				car.setIssue(rs.getString("issue"));
+				car.setName(rs.getString("name"));
+				car.setRclass(rs.getString("rclass"));
+				car.setRname(rs.getString("rname"));
+				System.out.println(car + " test");
 				return car;
 			}
 		} finally {
@@ -111,17 +116,16 @@ public class BoardDaoImpl implements BoardDao {
 	public void registCar(Board board) throws SQLException {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-
+		System.out.println(board + "res");
 		String sql = "insert into attendance (ano, userid, issuedate, issue) values (?,?,?,?)";
 
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
-			Board car = new Board();
-			pstmt.setString(1, car.getAno());
-			pstmt.setString(2, car.getUserid());
-			pstmt.setString(3, car.getIssuedate());
-			pstmt.setString(4, car.getIssue());
+			pstmt.setString(1, board.getAno());
+			pstmt.setString(2, board.getUserid());
+			pstmt.setString(3, board.getIssuedate());
+			pstmt.setString(4, board.getIssue());
 			
 			pstmt.executeUpdate();
 		} finally {

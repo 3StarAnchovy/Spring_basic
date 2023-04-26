@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 
 import com.ssafy.test.dto.Board;
+import com.ssafy.test.dto.Detail;
 import com.ssafy.test.model.dao.BoardDao;
 
 @Service
@@ -23,7 +24,7 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.selectAll();
 	}
 	@Override
-	public Board selectByAno(String ano) throws SQLException {
+	public Detail selectByAno(String ano) throws SQLException {
 		return boardDao.selectByAno(ano);
 	}
 	@Override
