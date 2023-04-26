@@ -25,5 +25,5 @@ public interface BookMapper {
 	/**
 	 * 책정보 삭제
 	 */
-	public abstract void deleteByIsbn(String[] isbn) throws SQLException;
+	public abstract void deleteByIsbn(String isbn) throws SQLException;
 }

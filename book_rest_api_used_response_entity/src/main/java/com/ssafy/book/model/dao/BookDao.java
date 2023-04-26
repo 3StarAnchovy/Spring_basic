@@ -1,11 +1,11 @@
-package com.ssafy.book.model.mapper;
+package com.ssafy.book.model.dao;
 
 import java.sql.SQLException;
 import java.util.List;
 
 import com.ssafy.book.dto.Book;
 
-public interface BookMapper {
+public interface BookDao {
 	/**
 	 * 전체 목록 조회
 	 */
@@ -25,5 +25,5 @@ public interface BookMapper {
 	/**
 	 * 책정보 삭제
 	 */
-	public abstract void deleteByIsbn(String[] isbn) throws SQLException;
+	public abstract void deleteByIsbn(String isbn) throws SQLException;
 }

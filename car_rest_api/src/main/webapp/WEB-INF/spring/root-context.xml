@@ -14,38 +14,36 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 		
 	<!-- service, dao, aop 빈등록하도록 스캔 -->
-	<context:component-scan base-package="com.ssafy.book.model,com.ssafy.book.aop"></context:component-scan>
+	<context:component-scan base-package="com.ssafy.car.model,com.ssafy.car.aop"></context:component-scan>
 	<!-- DataSource 빈 등록 -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
 		<property name="driverClass" value="com.mysql.cj.jdbc.Driver"/>
-		<property name="url" value="jdbc:mysql://127.0.0.1:3306/bookdb?serverTimezone=UTC&amp;useUniCode=yes&amp;characterEncoding=UTF-8"/>
+		<property name="url" value="jdbc:mysql://127.0.0.1:3306/train?serverTimezone=UTC&amp;useUniCode=yes&amp;characterEncoding=UTF-8"/>
 		<property name="username" value="ssafy"/>
 		<property name="password" value="ssafy"/>
 	</bean>
 	<!-- aop 사용을 위한 proxy 관련 설정 -->
 	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
 	
-	<!-- myBatis 사용 -->
-	<!-- 1.SqlSessionFactoryBean 빈 등록 -->
-	<bean id = "sqlSessionFactory" class = "org.mybatis.spring.SqlSessionFactoryBean">
-		<!-- DataSource --> <!-- ref는 객체 넣을때, value는 문자열 -->
-		<property name="dataSource" ref = "dataSource"></property>
+	<!-- myBatis 사용 (Mapper 인터페이스 사용 버전) -->
+	<!-- 1. SqlSessionFactoryBean 빈 등록 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- DataSource -->
+		<property name="dataSource" ref="dataSource" ></property>
 		<!-- mapper.xml 위치 정보 -->
 		<property name="mapperLocations" value="classpath:mapper/*.xml"></property>
 		<!-- typeAlias -->
-		<property name="typeAliasesPackage" value="com.ssafy.book.dto"></property>
+		<property name="typeAliasesPackage" value="com.ssafy.car.dto"></property>
 	</bean>
+	<!-- 2. Mapper 인터페이스 빈 등록 -->
+	<mybatis-spring:scan base-package="com.ssafy.car.model.mapper"/>
 	
-	<!-- 2. Mapper 인터페이스를 빈으로 등록 -->
-	<mybatis-spring:scan base-package="com.ssafy.book.model.mapper"/>
-	
-	<!-- transaction 설정 -->
+	<!-- Transaction 설정 -->
 	<!-- 1. transaction Manager 빈 등록 -->
-	<bean id = "transactionManager" class = "org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<constructor-arg ref = "dataSource"></constructor-arg>
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<constructor-arg ref="dataSource"></constructor-arg>
 	</bean>
-	
-	<!-- 2. @Transaction 어느테이션 기반 트랜잭션 설정 -->
+	<!-- 2. @Transactional 어노테이션 기반 트랜잭션 설정 -->
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 	
 	

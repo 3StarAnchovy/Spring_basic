@@ -27,7 +27,7 @@
 					<td onclick="goDetail('${book.isbn}')">${book.title}</td>
 					<td onclick="goDetail('${book.isbn}')">${book.author }</td>
 					<td onclick="goDetail('${book.isbn}')">${book.price }</td>
-					<td onclick="goDetail('${book.isbn}')"><input type="checkbox" name="isbn" value="${book.isbn}" /></td>
+					<td><input type="checkbox" name="isbn" value="${book.isbn}" /></td>
 				</tr>
 			</c:forEach>
 		</table>

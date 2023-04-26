@@ -36,14 +36,12 @@ public class BookServiceImpl implements BookService {
 	@Override
 	@Transactional //처리하는 도중에 예외가 발생하면 trasaction을 취소하고 롤백함
 	public void deleteByIsbn(String[] isbn) throws SQLException {
-		bookMapper.deleteByIsbn(isbn);
+		for(String i : isbn) 
+			bookMapper.deleteByIsbn(i);
 		//if(true) throw new NullPointerException();
 		
-		//Book book = new Book(); 
-		//bookMapper.registBook(book); // 여기서 터짐
-		//transaction
-		// delete + insert 이렇게 두개 되있는데
-		//insert에서 터짐. 데이터 무결성 위해서 delete도 롤백되야함
+		//Book book = new Book();
+		//bookMapper.registBook(book);
 	}
 }
 
